@@ -7,11 +7,16 @@ from habit.permissions import IsModerator, IsOwner, IsSuperUser
 from habit.serializers import AwardSerializer, HabitSerializer
 
 
-class HabitCreateAPIView(generics.CreateAPIView):
+class CreateHabitCreateAPIView(generics.CreateAPIView):
     """ Эндпоинт создания привычки """
     serializer_class = HabitSerializer
     pagination_class = ListPaginator
-   # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        new_habit = serializer.save()
+        new_habit.user = self.request.user
+        new_habit.save()
 
 
 class HabitUpdateAPIView(generics.UpdateAPIView):
@@ -19,14 +24,14 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     pagination_class = ListPaginator
-    # permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+    permission_classes = [IsAuthenticated, IsModerator | IsOwner]
 
 class HabitRetrieveAPIView(generics.RetrieveAPIView):
     """ Эндпоинт на получение подробной информации о привычки """
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     pagination_class = ListPaginator
-    # permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+    permission_classes = [IsAuthenticated, IsModerator | IsOwner]
 
 class HabitListAPIView(generics.ListAPIView):
     """ Эндпоинт на получение списка привычек"""
@@ -47,10 +52,12 @@ class HabitListAPIView(generics.ListAPIView):
 class HabitDestroyAPIView(generics.DestroyAPIView):
     """ Эндпоинт удаления привычки"""
     queryset = Habit.objects.all()
-    # permission_classes = [IsAuthenticated, IsSuperUser | IsOwner]
+    permission_classes = [IsAuthenticated, IsSuperUser | IsOwner]
 
 
 class AwardViewSet(viewsets.ModelViewSet):
     """ CRUD для награды """
     serializer_class = AwardSerializer
     queryset = Award.objects.all()
+    permission_classes = [IsAuthenticated]
+    pagination_class = ListPaginator

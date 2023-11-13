@@ -13,9 +13,9 @@ router.register(r'award', AwardViewSet, basename='award')
 app_name = HabitConfig.name
 
 urlpatterns = [
-    path('create/', views.HabitCreateAPIView.as_view(), name='habit_create'),
-    path('list/', views.HabitListAPIView.as_view(), name='habit_list'),
-    path('update/<int:pk>/', views.HabitUpdateAPIView.as_view(), name='habit_update'),
-    path('retrieve/<int:pk>/', views.HabitRetrieveAPIView.as_view(), name='habit_retrieve'),
-    path('destroy/<int:pk>/', views.HabitDestroyAPIView.as_view(), name='habit_destroy'),
+    path('habit_create/', views.CreateHabitCreateAPIView.as_view(), name='habit_create'),
+    path('habit_list/', views.HabitListAPIView.as_view(), name='habit_list'),
+    path('habit_update/<int:pk>/', views.HabitUpdateAPIView.as_view(), name='habit_update'),
+    path('habit_retrieve/<int:pk>/', views.HabitRetrieveAPIView.as_view(), name='habit_retrieve'),
+    path('habit_destroy/<int:pk>/', views.HabitDestroyAPIView.as_view(), name='habit_destroy'),
 ] + router.urls
