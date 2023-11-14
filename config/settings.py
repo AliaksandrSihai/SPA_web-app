@@ -41,17 +41,20 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'drf_yasg',
+    'debug_toolbar',
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
     'corsheaders',
     'django_celery_beat',
+    'coverage',
 
     'users',
     'habit',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -169,11 +172,20 @@ CELERY_TASK_TRACK_STARTED = True
 
 CELERY_BEAT_SCHEDULE = {
     'check_habit': {
-        'task': 'habit.tasks.check_time',
-        'schedule': timedelta(minutes=5),
+        'task': 'habit.tasks.periodical_task',
+        'schedule': timedelta(minutes=1),
     },
 }
 
 AUTH_USER_MODEL = 'users.User'
 
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+
+INTERNAL_IPS = [
+
+    '127.0.0.1',
+
+]
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+}

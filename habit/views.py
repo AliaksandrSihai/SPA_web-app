@@ -1,16 +1,14 @@
 from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated
-
-from habit.models import Award, Habit
+from habit.models import Award, Habit, Log
 from habit.pagination import ListPaginator
 from habit.permissions import IsModerator, IsOwner, IsSuperUser
-from habit.serializers import AwardSerializer, HabitSerializer
+from habit.serializers import AwardSerializer, HabitSerializer, LogSerializer
 
 
 class CreateHabitCreateAPIView(generics.CreateAPIView):
     """ Эндпоинт создания привычки """
     serializer_class = HabitSerializer
-    pagination_class = ListPaginator
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
@@ -23,15 +21,15 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
     """ Эндпоинт на обновление информации о привычки """
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
-    pagination_class = ListPaginator
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+
 
 class HabitRetrieveAPIView(generics.RetrieveAPIView):
     """ Эндпоинт на получение подробной информации о привычки """
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
-    pagination_class = ListPaginator
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+
 
 class HabitListAPIView(generics.ListAPIView):
     """ Эндпоинт на получение списка привычек"""
@@ -49,6 +47,7 @@ class HabitListAPIView(generics.ListAPIView):
 
         return queryset
 
+
 class HabitDestroyAPIView(generics.DestroyAPIView):
     """ Эндпоинт удаления привычки"""
     queryset = Habit.objects.all()
@@ -61,3 +60,9 @@ class AwardViewSet(viewsets.ModelViewSet):
     queryset = Award.objects.all()
     permission_classes = [IsAuthenticated]
     pagination_class = ListPaginator
+
+
+class LogListAPIView(generics.ListAPIView):
+    """ Эндпоинт для просмотра Log """
+    serializer_class = LogSerializer
+    queryset = Log.objects.all()

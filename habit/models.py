@@ -16,9 +16,8 @@ class Habit(models.Model):
     start_time = models.DateTimeField(verbose_name='время начала выполнения')
     finish_time = models.DateTimeField(verbose_name='время конца выполнения')
     time_to_complete = models.IntegerField(verbose_name='время на выполнение в минутах')
-    frequency = models.IntegerField(default=1, verbose_name='частота выполнения раз в день')
-    period_per_day = models.IntegerField(default=1, verbose_name='период между повторениями в часах', **NULLABLE)
-    duration = models.IntegerField(default=21, verbose_name='продолжительность в днях')
+    frequency = models.IntegerField(default=1, verbose_name='частота выполнения раз в день ')
+    duration = models.DateTimeField(verbose_name='продолжительность')
     award = models.ForeignKey(to='Award', on_delete=models.SET_NULL, verbose_name='вознаграждение',
                               related_name='award',  **NULLABLE)
     related_habit = models.ForeignKey(to='self', on_delete=models.SET_NULL,
@@ -45,11 +44,18 @@ class Award(models.Model):
         verbose_name = 'вознаграждение'
         verbose_name_plural = 'вознаграждения'
 
+
 class Log(models.Model):
     """ Уведомление """
-    habit = models.ForeignKey(to=Habit, on_delete=models.CASCADE, verbose_name='habit', related_name='habit_log',
-                              **NULLABLE)
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='to_user',
-                             **NULLABLE)
+    habit = models.ForeignKey(to=Habit, on_delete=models.CASCADE, verbose_name='habit', related_name='habit_log')
+    user = models.EmailField(verbose_name='user')
     status_response = models.CharField(max_length=55, **NULLABLE)
+    date = models.DateTimeField(auto_now_add=True, verbose_name='date')
+
+    def __str__(self):
+        return self.status_response
+
+    class Meta:
+        verbose_name = 'log'
+        verbose_name_plural = 'logs'
 

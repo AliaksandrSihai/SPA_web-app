@@ -18,4 +18,5 @@ urlpatterns = [
     path('habit_update/<int:pk>/', views.HabitUpdateAPIView.as_view(), name='habit_update'),
     path('habit_retrieve/<int:pk>/', views.HabitRetrieveAPIView.as_view(), name='habit_retrieve'),
     path('habit_destroy/<int:pk>/', views.HabitDestroyAPIView.as_view(), name='habit_destroy'),
+    path('log_list/', views.LogListAPIView.as_view(), name='log_list'),
 ] + router.urls
