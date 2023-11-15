@@ -15,7 +15,7 @@ class IsOwner(BasePermission):
     """ Разрешение для владельца """
 
     def has_object_permission(self, request, view, obj):
-        return request.user == obj.owner
+        return request.user == obj.user
 
 
 class IsSuperUser(BasePermission):
