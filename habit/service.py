@@ -34,7 +34,7 @@ def check_habit_time():
                     if habit.habit_log.all().exists():
                         for log in habit.habit_log.all():
                             period = ((habit.finish_time - habit.start_time) // habit.frequency).total_seconds()
-                            if (now - log.date).total_seconds() > period:
+                            if (now - log.date).total_seconds() >= period:
                                 status = telegram_sent_notification(habit.user.telegram, habit.action)
                                 Log.objects.create(habit=habit.id, user=habit.user.email, status_response=status)
                     else:
