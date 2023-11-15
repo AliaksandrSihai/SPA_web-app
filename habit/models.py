@@ -19,7 +19,7 @@ class Habit(models.Model):
     frequency = models.IntegerField(default=1, verbose_name='частота выполнения раз в день ')
     duration = models.DateTimeField(verbose_name='продолжительность')
     award = models.ForeignKey(to='Award', on_delete=models.SET_NULL, verbose_name='вознаграждение',
-                              related_name='award',  **NULLABLE)
+                              related_name='award', **NULLABLE)
     related_habit = models.ForeignKey(to='self', on_delete=models.SET_NULL,
                                       verbose_name='связанные привычки', **NULLABLE, )
     is_pleasant = models.BooleanField(default=False, verbose_name='признак приятной привычки')
@@ -58,4 +58,3 @@ class Log(models.Model):
     class Meta:
         verbose_name = 'log'
         verbose_name_plural = 'logs'
-

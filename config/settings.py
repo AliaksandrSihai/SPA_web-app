@@ -141,7 +141,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8000',
+    os.getenv('CORS_ALLOWED_ORIGINS'),
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -150,24 +150,22 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
-    'ALGORITHM': 'HS256',
+    'ALGORITHM': os.getenv('ALGORITHM'),
     'SIGNING_KEY': SECRET_KEY,
-    'VERIFYING_KEY': None,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:8000",
+    os.getenv('CSRF_TRUSTED_ORIGINS'),
 
 ]
 
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS')
 
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_TASK_TRACK_STARTED = True
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+CELERY_TASK_TRACK_STARTED = os.getenv('CELERY_TASK_TRACK_STARTED')
 
 
 CELERY_BEAT_SCHEDULE = {
@@ -183,7 +181,7 @@ TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 
 INTERNAL_IPS = [
 
-    '127.0.0.1',
+    os.getenv('INTERNAL_IPS')
 
 ]
 DEBUG_TOOLBAR_CONFIG = {
